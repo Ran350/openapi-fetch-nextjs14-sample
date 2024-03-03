@@ -1,0 +1,36 @@
+# open api 3.0 sample
+
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Sample API
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: sample@example.com
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  "/sample-api":
+    get:
+      operationId: sampleApi
+      tags:
+        - sample
+      summary: Sample API
+      description: Sample API
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                example: 123456
+
+tags:
+  - name: sample
+    description: Sample API
