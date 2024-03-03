@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## やりたいこと
 
-## Getting Started
+openapi-fetch が Next.js v13 の以下機能に対応しているか検証したい。
 
-First, run the development server:
+- Automatic fetch()
+- `fetch()` の cache オプション
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 方法
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Next.js v14 アプリケーションに、以下機能を実装
+   1. 呼び出し毎にレスポンスが変わる API エンドポイントを作成
+   2. openapi-fetch による fetch 処理を実装
+      - [src/lib/fetchData.ts](./src/lib/fetchData.ts) を参照。
+   3. fetch response を画面に表示
+      - 参考：[Next.js 13 の cache 周りを理解する - Automatic fetch() Request Deduping](https://zenn.dev/cybozu_frontend/articles/next-caching-dedupe)
+2. アプリケーションを起動、リロードし、fetch cache の有無により画面表示が変わるかを確認
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 結果
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+openapi-fetch 利用時も、特に問題なく Automatic fetch() Request Deduping できた。
 
-## Learn More
+- `fetch()` の cache オプションに対応していた。型エラーも発生しなかった。
+- [src/lib/fetchData.ts](./src/lib/fetchData.ts) を参照。
 
-To learn more about Next.js, take a look at the following resources:
+## 考察
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[openapi-fetch の内部実装](https://github.com/drwpow/openapi-typescript/blob/main/packages/openapi-fetch/src/index.js)を見ると、`createClient`では、
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. fetch() の arg の作成
+2. native fetch() の呼び出し
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+をしているだけ。なので考えてみれば当たり前だった。
