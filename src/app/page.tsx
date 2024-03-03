@@ -5,7 +5,7 @@ export default async function Bar() {
 
   return (
     <div className="bg-blue-300 p-4 border-2 border-gray-400 rounded">
-      Bar : {data}
+      Bar : {data.data?.data}
     </div>
   );
 }

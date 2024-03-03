@@ -27,10 +27,12 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
-                format: int32
-                example: 123456
-
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    description: Sample data
+                    example: 123456
 tags:
   - name: sample
     description: Sample API
