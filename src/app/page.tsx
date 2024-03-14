@@ -1,11 +1,11 @@
-import { fetchData } from "@/lib/fetchData";
+import { apiClient } from "@/lib/api/apiClient";
 
 export default async function Bar() {
-  const data = await fetchData();
+  const data1 = await apiClient.sampleApi();
 
   return (
     <div className="bg-blue-300 p-4 border-2 border-gray-400 rounded">
-      Bar : {data.data?.data}
+      Bar : {data1?.data}
     </div>
   );
 }
